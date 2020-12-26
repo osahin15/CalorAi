@@ -1,9 +1,10 @@
  # CalorAi
  ###  Running a deep convolutional neural network in Android using TensorFlow Lite
   
-  TensorFlow Lite kullanılarak 5 adet tatlı'nın (baklava,cheesecake,donuts,tiramisu,pancake)
-  100 gr da Kaç Kalori olduğunu gösteren bir ML DL uygulaması.
-
+  TensorFlow Lite kullanılarak 5 adet tatlı class ını (baklava,cheesecake,donuts,tiramisu,pancake)
+  tahmin eder ve 100 gr. da Kaç Kalori olduğunu gösterir.
+  
+  (Her class için 1000 fotoğraf kullanıldı.)
   ## Screenshot
 
 ![Screenshot_20201226_230854_org tensorflow lite examples classification](https://user-images.githubusercontent.com/37152719/103158995-16bca500-47d5-11eb-924a-566c588624e2.jpg)
