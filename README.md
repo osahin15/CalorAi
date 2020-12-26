@@ -5,6 +5,8 @@
   tahmin eder ve 100 gr. da Kaç Kalori olduğunu gösterir.
   
   (Her class için 1000 fotoğraf kullanıldı.)
+  
+  ### Model https://colab.research.google.com/drive/1d7tBBt7UH_A5l8QbbihTkeZb4YqAprFE?usp=sharing
   ## Screenshot
 
 ![Screenshot_20201226_230854_org tensorflow lite examples classification](https://user-images.githubusercontent.com/37152719/103158995-16bca500-47d5-11eb-924a-566c588624e2.jpg)
