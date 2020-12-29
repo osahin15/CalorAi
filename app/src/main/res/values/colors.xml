@@ -5,4 +5,8 @@
     <color name="colorAccent">#d2d0d1</color>
 
     <color name="semi_transparent">#66000000</color>
+
+    <color name="green">#388E3C</color>
+    <color name="light_green">#4CAF50</color>
+    <color name="extra_light_green">#66BB6A</color>
 </resources>
