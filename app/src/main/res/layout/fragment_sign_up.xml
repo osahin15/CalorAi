@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/black"
+    tools:context=".view.SignInFragment">
+
+    <ImageView
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="15dp"
+        android:id="@+id/signUpBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/abc_vector_test" />
+
+    <TextView
+        android:id="@+id/welcome"
+        android:textColor="@color/extra_light_green"
+        android:text="SIGN UP NOW !"
+        android:textSize="25sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="80dp"
+        android:layout_marginStart="40dp"
+        android:textStyle="bold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+
+
+    <TextView
+        android:id="@+id/email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Email"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_marginTop="30dp"
+        app:layout_constraintStart_toStartOf="@+id/welcome"
+        app:layout_constraintTop_toBottomOf="@+id/welcome"
+        tools:ignore="MissingConstraints" />
+    <EditText
+        android:id="@+id/editTextTextEmailAddressSignUp"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:ems="10"
+        android:textColor="@color/white"
+        android:hint="example@gmail.com"
+        android:textColorHint="@color/semiwhite"
+        android:paddingStart="10dp"
+        android:background="@drawable/sign_edit_bg"
+        android:inputType="textEmailAddress"
+        app:layout_constraintTop_toBottomOf="@+id/email"
+        app:layout_constraintStart_toStartOf="@+id/email"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="60dp"
+        android:layout_marginTop="5dp"/>
+
+    <TextView
+        android:id="@+id/password"
+        android:textColor="@color/white"
+        android:text="Password"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_marginTop="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/editTextTextEmailAddressSignUp"
+        app:layout_constraintStart_toStartOf="@+id/email"/>
+    <EditText
+        android:id="@+id/editTextTextPasswordSignUp"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:textColorHint="@color/semiwhite"
+        android:paddingStart="10dp"
+        android:hint="123456"
+        android:textColor="@color/white"
+        android:background="@drawable/sign_edit_bg"
+        android:ems="10"
+        android:inputType="textPassword"
+        app:layout_constraintTop_toBottomOf="@+id/password"
+        app:layout_constraintStart_toStartOf="@+id/editTextTextEmailAddressSignUp"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="60dp"
+        android:layout_marginTop="5dp"
+        />
+
+    <Button
+        android:id="@+id/signUpButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="SIGN UP"
+        android:backgroundTint="@color/extra_light_green"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:layout_marginTop="40dp"
+        app:layout_constraintEnd_toEndOf="@id/editTextTextPasswordSignUp"
+        app:layout_constraintStart_toStartOf="@id/editTextTextPasswordSignUp"
+        app:layout_constraintTop_toBottomOf="@+id/editTextTextPasswordSignUp" />
+</androidx.constraintlayout.widget.ConstraintLayout>

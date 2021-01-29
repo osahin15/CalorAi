@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    tools:context=".view.MainActivity">
+
+
+   <ImageView
+       app:layout_constraintTop_toTopOf="@id/userName"
+       app:layout_constraintStart_toStartOf="parent"
+       app:layout_constraintBottom_toBottomOf="@+id/userName"
+       android:src="@drawable/caloraicon"
+       android:layout_marginStart="5dp"
+       android:layout_width="30dp"
+       android:layout_height="30dp"/>
+    <TextView
+        android:id="@+id/userName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/archivo_black"
+        android:text="Username"
+        android:textColor="@color/white"
+        android:layout_marginTop="15dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/profilePhoto"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <View
+        android:id="@+id/viewBg"
+        android:background="@color/extra_light_green"
+        app:layout_constraintTop_toBottomOf="@+id/nameSurname"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="0dp"
+        android:layout_height="110dp"
+        tools:ignore="MissingConstraints" />
+    <TextView
+        android:layout_marginTop="15dp"
+        android:text="Name Surname"
+        android:id="@+id/nameSurname"
+        android:layout_width="0dp"
+        android:padding="5dp"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        app:layout_constraintTop_toTopOf="@+id/profilePhoto"
+        app:layout_constraintStart_toEndOf="@+id/profilePhoto"
+        app:layout_constraintEnd_toEndOf="parent"/>
+    <TextView
+        android:layout_marginTop="15dp"
+        android:text="Boy:"
+        android:id="@+id/boyBase"
+        android:textStyle="bold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:layout_marginStart="10dp"
+        app:layout_constraintTop_toBottomOf="@+id/nameSurname"
+        app:layout_constraintStart_toEndOf="@+id/profilePhoto" />
+    <TextView
+        android:layout_marginTop="15dp"
+        android:text="181 cm"
+        android:id="@+id/boy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:layout_marginStart="10dp"
+        app:layout_constraintTop_toBottomOf="@+id/nameSurname"
+        app:layout_constraintStart_toEndOf="@+id/boyBase" />
+    <TextView
+        android:text="Kilo:"
+        android:textStyle="bold"
+        android:id="@+id/kiloBase"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:layout_marginStart="10dp"
+        app:layout_constraintTop_toTopOf="@+id/boyBase"
+        app:layout_constraintBottom_toBottomOf="@+id/boyBase"
+        app:layout_constraintStart_toEndOf="@+id/boy"
+      />
+    <TextView
+        android:text="80 kg"
+        android:id="@+id/kilo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:layout_marginStart="10dp"
+        app:layout_constraintTop_toTopOf="@+id/boyBase"
+        app:layout_constraintBottom_toBottomOf="@+id/boyBase"
+        app:layout_constraintStart_toEndOf="@+id/kiloBase"
+        />
+ <TextView
+     android:layout_marginTop="10dp"
+     android:text="Cinsiyet:"
+     android:textStyle="bold"
+     android:id="@+id/cinsiyet"
+     android:layout_width="wrap_content"
+     android:layout_height="wrap_content"
+     android:textColor="@color/black"
+     android:layout_marginStart="10dp"
+     app:layout_constraintTop_toBottomOf="@+id/kilo"
+     app:layout_constraintStart_toEndOf="@+id/profilePhoto"
+     />
+ <TextView
+     android:layout_marginTop="10dp"
+     android:text="Erkek"
+     android:id="@+id/cinsiyetValue"
+     android:layout_width="wrap_content"
+     android:layout_height="wrap_content"
+     android:textColor="@color/black"
+     android:layout_marginStart="10dp"
+     app:layout_constraintTop_toBottomOf="@+id/kilo"
+     app:layout_constraintStart_toEndOf="@+id/cinsiyet"
+     />
+ <TextView
+     android:layout_marginTop="10dp"
+     android:text="Bazal Kalori:"
+     android:textStyle="bold"
+     android:id="@+id/dailyGoalBase"
+     android:layout_width="wrap_content"
+     android:layout_height="wrap_content"
+     android:textColor="@color/black"
+     android:layout_marginStart="10dp"
+     app:layout_constraintTop_toBottomOf="@+id/cinsiyet"
+     app:layout_constraintStart_toEndOf="@+id/profilePhoto"
+     />
+ <TextView
+     android:layout_marginTop="10dp"
+     android:text="2000 kcal"
+     android:id="@+id/dailyGoal"
+     android:layout_width="wrap_content"
+     android:layout_height="wrap_content"
+     android:textColor="@color/black"
+     android:layout_marginStart="15dp"
+     app:layout_constraintTop_toBottomOf="@+id/cinsiyet"
+     app:layout_constraintStart_toEndOf="@+id/dailyGoalBase"
+     />
+    <Button
+        android:onClick="profileSettingClick"
+        android:id="@+id/profileSetting"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:text="Profili Düzenle"
+        android:textSize="7sp"
+        android:backgroundTint="@color/profilesetting"
+        app:layout_constraintTop_toBottomOf="@+id/logOut"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:ignore="OnClick" />
+    <Button
+        android:onClick="logOut"
+        android:id="@+id/logOut"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:text="Çıkış Yap"
+        android:textSize="7sp"
+        android:backgroundTint="@color/logout"
+        app:layout_constraintTop_toTopOf="@id/userName"
+        app:layout_constraintBottom_toBottomOf="@id/userName"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:ignore="OnClick" />
+
+
+    <com.makeramen.roundedimageview.RoundedImageView
+        android:onClick="selectImage"
+        android:id="@+id/profilePhoto"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:scaleType="centerCrop"
+        android:layout_margin="20dp"
+        android:src="@drawable/selectimage"
+        app:riv_corner_radius="40dp"
+        app:layout_constraintTop_toBottomOf="@+id/userName"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="OnClick" />
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@+id/viewBg"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+     <TextView
+         android:id="@+id/kaloriDepoText"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:text="Alınan Son Kaloriler"
+         android:layout_alignParentTop="true"
+         android:textColor="@color/white"
+         android:textSize="15sp"
+         android:layout_alignTop="@+id/caloriRepo"
+         android:layout_margin="10dp"
+         android:layout_centerHorizontal="true" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/caloriRepo"
+            android:layout_marginTop="35dp"
+            tools:listitem="@layout/item_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </RelativeLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/cameraButton"
+        android:onClick="openCamera"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:backgroundTint="@color/light_green"
+        android:src="@drawable/ic_baseline_camera_alt_24"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:contentDescription="@string/app_name"
+        tools:ignore="OnClick" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

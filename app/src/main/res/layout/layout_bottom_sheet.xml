@@ -96,6 +96,19 @@
                 android:textSize="12sp" />
 
         </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="right">
+            <Button
+                android:onClick="addRepo"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:text="Ekle"
+                android:textSize="8sp"
+                android:layout_gravity="center_horizontal"/>
+        </LinearLayout>
 
         <View
             android:layout_width="match_parent"
