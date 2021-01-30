@@ -5,6 +5,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
 import android.app.Activity;
@@ -16,25 +18,41 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
+import android.view.textclassifier.TextClassificationSessionFactory;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 
 import org.tensorflow.lite.examples.classification.CameraActivity;
 import org.tensorflow.lite.examples.classification.ClassifierActivity;
 import org.tensorflow.lite.examples.classification.R;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -43,44 +61,81 @@ public class MainActivity extends AppCompatActivity {
     ImageView selectImage;
     Uri image;
     Bundle bundle;
+    String userId;
     private FirebaseFirestore firebaseFirestore;
     private FirebaseStorage firebaseStorage;
     private StorageReference storageReference;
+    private ArrayList<String> calories;
+    private  RecyclerAdapter adapter;
+    RecyclerView caloriRepo;
 
+    TextView nameSurname,boy,kilo,cinsiyet,bazalKalori,userName;
 
-    TextView nameSurname,boy,kilo,cinsiyet,bazalKalori;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        calories = new ArrayList<>();
+        caloriRepo = findViewById(R.id.caloriRepo);
+
         firebaseStorage = FirebaseStorage.getInstance();
         storageReference = firebaseStorage.getReference();
         firebaseAuth  = FirebaseAuth.getInstance();
-        selectImage = findViewById(R.id.profilePhoto);
+        firebaseFirestore = FirebaseFirestore.getInstance();
 
+        selectImage = findViewById(R.id.profilePhoto);
+        userName = findViewById(R.id.userName);
         nameSurname = findViewById(R.id.nameSurname);
         boy = findViewById(R.id.boy);
         kilo = findViewById(R.id.kilo);
         cinsiyet = findViewById(R.id.cinsiyetValue);
         bazalKalori = findViewById(R.id.dailyGoal);
 
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+        userId = user.getUid();
+        DocumentReference docRef = firebaseFirestore.collection("Profils").document(userId);
 
-        bundle = this.getIntent().getExtras();
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
 
-        if (bundle!=null){
-            String isimSoyisim = bundle.getString("isim","isim")+" "+bundle.getString("soyisim","soyisim");
-            System.out.println(isimSoyisim);
-            nameSurname.setText(isimSoyisim);
-            boy.setText(bundle.getString("boy","150"));
-            kilo.setText(bundle.getString("kilo","50"));
-            cinsiyet.setText(bundle.getString("cinsiyet","yok"));
-            if (cinsiyet.getText().toString().equals("Erkek")){
-                bazalKalori.setText("2000");
-            }else{
-                bazalKalori.setText("1500");
+                if (task.isSuccessful()){
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()){
+                        Map<String,Object> gelenData = document.getData();
+                        String downloadUrl = (String) gelenData.get("profilphoto");
+                        Picasso.get().load(downloadUrl).placeholder(R.drawable.selectimage).into(selectImage);
+                        String isimSoyisim = (String) gelenData.get("isim") +" "+(String) gelenData.get("soyisim");
+                        userName.setText((String)gelenData.get("useremail"));
+                        nameSurname.setText(isimSoyisim);
+                        boy.setText((String)gelenData.get("boy"));
+                        kilo.setText((String)gelenData.get("kilo"));
+                        cinsiyet.setText((String)gelenData.get("cinsiyet"));
+                        bazalKalori.setText((String)gelenData.get("bazal"));
+
+                    }else{
+                        Log.d("documentErr", "No such data");
+                    }
+                }else{
+                    Log.d("taskError", "get failed with ", task.getException());
+                }
             }
-        }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(getApplicationContext(), "Profil YÜklenirken Sorun Oluştu", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        getCalorieData();
+
+
+        caloriRepo.setLayoutManager(new LinearLayoutManager(this));
+        adapter = new RecyclerAdapter(calories);
+        caloriRepo.setAdapter(adapter);
+
+
     }
 
     public void openCamera(View view) {
@@ -102,64 +157,40 @@ public class MainActivity extends AppCompatActivity {
 
     public void selectImage(View view) {
 
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED){
-            ActivityCompat.requestPermissions(this,new String[] {Manifest.permission.READ_EXTERNAL_STORAGE},1);
-        }else{
-            Intent intentToGallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-            startActivityForResult(intentToGallery,2);
-        }
+
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode==1){
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-                Intent intentToGallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(intentToGallery,2);
-            }
-        }
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-    }
+    public void getCalorieData(){
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if (requestCode==2 && resultCode == Activity.RESULT_OK && data !=null){
-             image =   data.getData();
-            try {
-                if (Build.VERSION.SDK_INT >= 28){
-                    ImageDecoder.Source source  = ImageDecoder.createSource(this.getContentResolver(),image);
-                    selectedImage = ImageDecoder.decodeBitmap(source);
-                    selectImage.setImageBitmap(selectedImage);
-                }else{
-                    selectedImage = MediaStore.Images.Media.getBitmap(this.getContentResolver(),image);
-                    selectImage.setImageBitmap(selectedImage);
+
+        CollectionReference collectionReference = firebaseFirestore.collection("CaloriRepo").document(userId).collection(userId);
+
+        collectionReference.orderBy("date", Query.Direction.ASCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                if (error!=null){
+                    Toast.makeText(MainActivity.this, error.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                 }
 
-                String imageName ="profilephoto/" + firebaseAuth.getCurrentUser().getUid();
-                if (image !=null){
-                    storageReference.child(imageName).putFile(image).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            StorageReference newReference = FirebaseStorage.getInstance().getReference(imageName);
-                            newReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                @Override
-                                public void onSuccess(Uri uri) {
-                                    String downloadUrl = uri.toString();
-                                }
-                            });
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(MainActivity.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                }
+                if (value !=null){
+                    for (DocumentSnapshot snapshot : value.getDocuments()){
+                        Map<String,Object> data = snapshot.getData();
+                        String food = (String) data.get("food");
 
-            } catch (IOException e) {
-                e.printStackTrace();
+                        System.out.println(food);
+
+                        calories.add(food);
+                        adapter.notifyDataSetChanged();
+
+                    }
+                }
             }
-        }
-        super.onActivityResult(requestCode, resultCode, data);
+        });
     }
+
+
+
+
+
+
 }

@@ -19,6 +19,7 @@
         tools:ignore="MissingConstraints"
         android:elevation="8dp">
         <ImageView
+            android:id="@+id/foodImage"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:scaleType="centerCrop"
@@ -32,17 +33,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Baklava"
+            android:id="@+id/foodName"
             android:textSize="20sp"
             android:textColor="@color/white"
             android:layout_gravity="center"
-            android:layout_marginStart="30dp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:textColor="@color/extra_light_green"
-            android:text="150 Kalori"
-            android:layout_gravity="center_vertical"
             android:layout_marginStart="30dp"/>
     </LinearLayout>
 
